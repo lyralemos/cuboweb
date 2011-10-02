@@ -1,0 +1,34 @@
+{% extends 'cms/item.html' %}
+
+{% load thumbnail %}
+
+{% block  document-heading %}
+	{% if request.META.PATH_INFO == '/congresso/convidados' %}
+		Convidados
+	{% else %}
+		Palestrantes
+	{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{% url palestrantes_view %}">Convidados</a>
+{% endblock %}
+
+{% block content %}
+	{% for palestrante in object_list %}
+		<div id="palestrante-{{ palestrante.titulo|slugify }}" class="palestrante">
+			{% if palestrante.foto %}
+				{% thumbnail palestrante.foto "100x150" as foto %}
+				<img src="{{ foto.url }}" alt="{{ palestrante }}" title="{{ palestrante }}" />
+				{% endthumbnail %}
+			{% endif %}
+			<h3>{{ palestrante }}</h3>
+			<p class="text">{{ palestrante.descricao }}</p>
+			<div class="visualClear"></div>
+		</div>
+	{% empty %}
+		<div class="text">
+			A lista dos palestrantes ainda n&atilde;o est&aacute; dispon&iacute;vel.
+		</div>
+	{% endfor %}
+{% endblock %}

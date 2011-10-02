@@ -1,0 +1,12 @@
+{% extends 'base_email.html' %}{% block content %}{% autoescape on %}
+Olá {{ instance.nome }},
+
+Recebemos seu cadastro com sucesso. 
+
+Para imprimir o seu boleto acesse o endereço abaixo:
+
+http://{{ domain }}{% url boleto instance.id %}
+
+Após efetuar o pagamento você receberá um email com a confirmação da sua inscrição.
+{% endautoescape %}
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'cms/item.html' %}
+
+{% block document-heading %}
+	Programação
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{% url programacao_view %}">Programação</a>
+{% endblock %}
+
+{% block content %}
+	{% for programacao in programacoes %}
+		{% ifequal programacao.slug 'programacao' %}
+		{% else %}
+			<h2>{{ programacao.titulo }}</h2>
+		{% endifequal %}
+		<div class="text">
+			{{ programacao.instrucoes|safe }}
+		</div>
+		{% with programacao.itens as itens %}
+		{% if itens %}
+		{% for item in itens %}
+			{% ifchanged item.dia%}
+				{% if not forloop.first %}
+					</table>
+				{% endif %}	
+			<h3 class="dia_programacao">{{ item.dia|date:"d/m/Y - l" }}</h3>
+			<table class="programacao">
+				<tr>
+					<th class="horario">Hor&aacute;rio</th>
+					<th class="titulo">T&iacute;tulo</th>
+					<th class="palestrante">Palestrante</th>
+				</tr>
+			{% endifchanged %}
+			<tr>
+				<td align="center">{{ item.inicio|time:"H:i" }} - {{ item.termino|time:"H:i" }}</td>
+				<td>{{ item }}</td>
+				<td>
+					{% if item.palestrante %}
+						<a href="{% url palestrantes_view %}#palestrante-{{item.palestrante.titulo|slugify}}">{{item.palestrante}}</a>
+					{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+		</table>
+		{% else %}
+		<div class="text">
+			A programa&ccedil;&atilde;o ainda n&atilde;o est&aacute; dispon&iacute;vel.
+		</div>
+		{% endif %}	
+		{% endwith %}
+	{% endfor %}
+{% endblock %}

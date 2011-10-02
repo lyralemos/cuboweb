@@ -1,0 +1,17 @@
+{% extends 'paginas/pagina_list.html' %}
+
+{% block  document-heading %}
+	{{ object }}
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{{ object.get_absolute_url }}">{{ object.titulo }}</a>
+{% endblock %}
+
+{% block content %}
+	<div class="text">
+		{% autoescape off %}
+		{{ object.texto }}
+		{% endautoescape %}
+	</div>
+{% endblock %}

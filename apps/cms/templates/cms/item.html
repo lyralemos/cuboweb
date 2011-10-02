@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block main %}
+
+	{% block before-heading %}{% endblock %}
+	<h1 id="documentFirstHeading">
+		{% block document-heading %}
+			{% if object.titulo %}
+				{{ object.titulo }}
+			{% endif %}
+		{% endblock %}
+	</h1>
+	{% block after-heading %}{% endblock %}
+	
+	<div class="content">
+		{% block content %}
+		{{ content }}
+		{% endblock %}
+	</div>
+
+{% endblock %}

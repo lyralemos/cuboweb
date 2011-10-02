@@ -1,0 +1,22 @@
+{% extends "cms/item.html" %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; P&aacute;gina n&atilde;o encontrada
+{% endblock %}
+
+{% block document-heading %}
+	P&aacute;gina n&atilde;o encontrada
+{% endblock %}
+
+{% block content %}
+	<div class="text">
+		Lamentamos o ocorrido, mas a p&aacute;gina que voc&ecirc; est&aacute; tentando acessar encontra-se 
+		temporariamente indispon&iacute;vel, ou foi removida do nosso sistema.<br /><br />
+
+		Para relatar o ocorrido e saber porque isso aconteceu, <a href="{% url contato_view %}">clique aqui</a> 
+		e entre em contato com a nossa equipe.<br /><br />
+		
+		Atenciosamente,<br />
+		<b>EQUIPE T&Eacute;CNICA</b>
+	</div>
+{% endblock %}

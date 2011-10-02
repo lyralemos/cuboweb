@@ -1,0 +1,22 @@
+{% extends 'cms/item.html' %}
+
+{% block document-heading %}
+	Inscri&ccedil;&atilde;o Enviada
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{% url inscricao_view %}">Inscri&ccedil;&atilde;o</a>
+{% endblock %}
+
+{% block content %}
+	<div class="text">
+		Ol&aacute; {{ instance.nome }}, obrigado por se inscrever no <b>{{ nome_congresso }}</b>.
+		<br /><br />
+		Aguarde o nosso email com a confirma&ccedil;&atilde;o da sua inscri&ccedil;&atilde;o.
+		<br /><br />  
+		Para maiores informa&ccedil;&otilde;es, <a href="/contato"><b>clique aqui</b></a> e entre em contato com a nossa equipe.
+		<br /><br />
+		Atenciosamente,<br />
+		Secretaria Executiva.
+	</div>
+{% endblock %}

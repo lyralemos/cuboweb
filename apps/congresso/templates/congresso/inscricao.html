@@ -1,0 +1,56 @@
+{% extends 'cms/item.html' %}
+
+{% block document-heading %}
+	Inscri&ccedil;&atilde;o
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{% url inscricao_view %}">Inscri&ccedil;&atilde;o</a>
+{% endblock %}
+
+{% block content %}
+	{% if precos %}
+		<table class="precos">	
+			<tr>
+				<th></th>
+			{% for data in datas %}
+				<th>Até {{ data|date:"d/m/Y" }}</th>
+			{% endfor %}
+			</tr>
+			{% for preco in precos %}
+				{% ifchanged preco.categoria %}
+				<tr>
+					<td>{{ preco.categoria }}</td>
+				{% endifchanged %}
+					<td>R$ {{ preco }}</td>
+				{% if forloop.last %}
+				</tr>
+				{% endif %}
+			{% endfor %}
+		</table>
+	{% endif %}
+	{% if pagina %}
+		<div class="text">
+			{{ pagina.texto|safe }}
+		</div>
+	{% endif %}
+	<form method="post" action="{% url inscricao_view %}">{% csrf_token %}
+		{{ form.non_field_errors }}
+		{% for field in form %}
+			{% if not field.is_hidden %}
+			<fieldset {% if field.errors %}class="error"{% endif %}>
+				{{ field.label_tag }}
+				{{ field }}
+				<div class="help">{{ field.help_text }}</div>
+				{{ field.errors }}
+			</fieldset>
+			{% else %}
+				{{ field }}
+			{% endif %}
+		{% endfor %}
+		<div class="action_buttons">
+			<input type="submit" value="Enviar" />
+			<input type="reset" value="Limpar" />
+		</div>
+	</form>
+{% endblock %}

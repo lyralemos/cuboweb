@@ -1,0 +1,15 @@
+{% extends 'cms/item.html' %}
+
+{% block breadcrumbs %}
+	{{  block.super }} &rarr; <a href="{% url contato_view %}">Contato</a> 
+{% endblock %}
+
+{% block document-heading %}
+Contato enviado com sucesso!
+{% endblock %}
+
+{% block content %}
+	<div class="text">
+		N&oacute;s agradecemos o seu contato. Em breve estaremos respondendo a sua mensagem.
+	</div>
+{% endblock %}

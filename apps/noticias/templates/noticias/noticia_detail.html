@@ -1,0 +1,31 @@
+{% extends 'noticias/noticia_list.html' %}
+
+{% load thumbnail %}
+
+{% block before-heading %}
+	<p class="date">{{ object.data_publicacao|date:"d/m/Y - H:i" }}</p>
+{% endblock %}
+
+{% block  document-heading %}
+	{{ object }}
+{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{{ object.get_absolute_url }}">{{ object.titulo }}</a>
+{% endblock %}
+
+{% block content %}
+	{% if object.imagem %}
+	<p class="newsImageContainer">
+		{% thumbnail object.imagem "200x150" as foto %}
+		<img src="{{ foto.url }}" alt="{{ object.legenda }}" title="{{ object.legenda }}" />
+		{% endthumbnail %}
+		{% if object.legenda %}
+		<span>{{ object.legenda }}</span>
+		{% endif %}
+	</p>
+	{% endif %}
+	<div class="text">
+		{{ object.texto|safe }}
+	</div>
+{% endblock %}

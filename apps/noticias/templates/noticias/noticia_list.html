@@ -1,0 +1,24 @@
+{% extends 'cms/item.html' %}
+
+{% load pagination_tags %}
+
+{% block  document-heading %}Notícias{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{% url noticias_view %}">Noticias</a>
+{% endblock %}
+
+{% block content %}
+	
+	{% autopaginate object_list %}
+	
+	{% for noticia in object_list%}
+		<div>
+			<span class="date">{{ noticia.data_publicacao|date:"d/m/Y - H:i" }}</span>
+			<h3><a href="{{ noticia.get_absolute_url }}">{{ noticia }}</a></h3>
+		</div>
+	{% endfor %}
+	<div id="paginacao">
+		{% paginate %}
+	</div>
+{% endblock %}

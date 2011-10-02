@@ -1,0 +1,23 @@
+{% extends 'cms/item.html' %}
+
+{% load pagination_tags %}
+
+{% block  document-heading %}Páginas{% endblock %}
+
+{% block breadcrumbs %}
+	{{ block.super }} &rarr; <a href="{% url paginas_view %}">Páginas</a>
+{% endblock %}
+
+{% block content %}
+	
+	{% autopaginate object_list %}
+	
+	{% for obj in object_list%}
+		<div>
+			<h3><a href="{{ obj.get_absolute_url }}">{{ obj }}</a></h3>
+		</div>
+	{% endfor %}
+	<div id="paginacao">
+		{% paginate %}
+	</div>
+{% endblock %}

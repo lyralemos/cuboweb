@@ -1,0 +1,10 @@
+{% for obj in inscritos %}
+{% if forloop.first %}
+	{% for attr,value in obj.attrs %}
+	{{attr}},
+	{% endfor %}
+{% endif %}
+	{% for attr,value in obj.attrs %}
+	{{value}},
+	{% endfor %}
+{% endfor %}
