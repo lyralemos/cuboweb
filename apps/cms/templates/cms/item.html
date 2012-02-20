@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 
+{% block breadcrumb-item %}
+	{{  block.super }} 
+	{% if object %}
+		<li><a href="{% url pagina_view object.slug %}">{{ object.titulo }}</a></li>
+	{% endif %}
+{% endblock %}
+
 {% block main %}
 
 	{% block before-heading %}{% endblock %}

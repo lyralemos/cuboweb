@@ -10,16 +10,27 @@
 	{% endif %}
 {% endblock %}
 
-{% block breadcrumbs %}
-	{{ block.super }} &rarr; <a href="{% url palestrantes_view %}">Convidados</a>
+{% block breadcrumb-item %}
+	{{ block.super }} 
+	<li>
+		<a href="{% url palestrantes_view %}">
+			{% if request.META.PATH_INFO == '/congresso/convidados' %}
+				Convidados
+			{% else %}
+				Palestrantes
+			{% endif %}
+		</a>
+	</li>
 {% endblock %}
 
 {% block content %}
 	{% for palestrante in object_list %}
-		<div id="palestrante-{{ palestrante.titulo|slugify }}" class="palestrante">
+		<div id="palestrante-{{ palestrante.titulo|slugify }}" class="palestrante clearfix">
 			{% if palestrante.foto %}
 				{% thumbnail palestrante.foto "100x150" as foto %}
-				<img src="{{ foto.url }}" alt="{{ palestrante }}" title="{{ palestrante }}" />
+				<div class="thumbnail pull-left">
+					<img class="" src="{{ foto.url }}" alt="{{ palestrante }}" title="{{ palestrante }}" />
+				</div>
 				{% endthumbnail %}
 			{% endif %}
 			<h3>{{ palestrante }}</h3>

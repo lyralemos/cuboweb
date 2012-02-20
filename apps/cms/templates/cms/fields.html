@@ -1,10 +1,18 @@
 {% for field in form %}
 	{% if not field.is_hidden %}
-	<fieldset {% if field.errors %}class="error"{% endif %}>
-		{{ field.label_tag }}
-		{{ field }}
-		<div class="help">{{ field.help_text }}</div>
-		{{ field.errors }}
+	<fieldset id="field-{{ field.label|slugify }}">
+		<div class="control-group {% if field.errors %}error{% endif %}">
+			{{ field.label_tag }}
+			<div class="controls">
+				{{ field }}
+				{% if field.errors %}
+					<div class="help-inline">{{ field.errors }}</div>
+				{% endif %}
+				{% if field.help_text %}
+					<div class="help-block">{{ field.help_text }}</div>
+				{% endif %}
+			</div>
+		</div>
 	</fieldset>
 	{% else %}
 		{{ field }}

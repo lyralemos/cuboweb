@@ -52,7 +52,7 @@ class BaseAdmin(admin.ModelAdmin):
             self.search_fields = list(self.pre_search_fields) + list(self.search_fields)
         super(BaseAdmin, self).__init__(*args, **kwargs)
 
-    class Media():
-        css = {"all": ("cms/css/cmsadmin.css",)}
-        #js = ['/media/tinymce/jscripts/tiny_mce/tiny_mce.js', '/media/tinymce_setup/tinymce_setup.js',]
+    #class Media():
+        #css = {"all": ("cms/css/cmsadmin.css",)}
+        #js = ['cms/tinymce_setup.js',]
 

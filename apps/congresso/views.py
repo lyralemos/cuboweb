@@ -54,9 +54,12 @@ def inscricao(request):
             instance = form.save()
             default_from = getattr(settings, 'DEFAULT_FROM_EMAIL')
             site_domain = Site.objects.get_current().domain
-            mensagem = render_to_string('congresso/email_inscricao.html', {'instance':instance,'domain':site_domain})
+            mensagem = render_to_string('congresso/email_inscricao.html', {
+                'instance':instance,
+                'domain':site_domain,
+                'NOME_CONGRESSO' : settings.NOME_CONGRESSO
+            })
             send_mail('[%s] Inscrição recebida' % nome_congresso, mensagem,default_from,[instance.email])
-            #return render_to_response('congresso/inscricao_realizada.html',locals(),context_instance=RequestContext(request))
             return HttpResponseRedirect(reverse('pagina_view',args=['inscricao-enviada']))
     else:
         form = InscricaoForm()

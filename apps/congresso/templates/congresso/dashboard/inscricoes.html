@@ -1,0 +1,11 @@
+{% extends "grappelli/dashboard/module.html" %}
+{% block module_content %}
+{% if not module.is_empty %}
+        <div class="module">
+            <div class="row" align="center">
+                <div style="font-size:50px;padding:12px 0">{{ module.total }}</div>
+                inscritos
+            </div>
+        </div>
+{% endif %}
+{% endblock %}

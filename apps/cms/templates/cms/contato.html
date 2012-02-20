@@ -1,7 +1,7 @@
 {% extends 'cms/item.html' %}
 
-{% block breadcrumbs %}
-	{{  block.super }} &rarr; <a href="{% url contato_view %}">Contato</a> 
+{% block breadcrumb-item %}
+	{{  block.super }} <li><a href="{% url contato_view %}">Contato</a></li>
 {% endblock %}
 
 {% block document-heading %}
@@ -19,8 +19,8 @@ Contato
 	{% include 'cms/fields.html' %}
 	
 	<div class="action_buttons">
-		<input type="submit" value="Enviar" />
-		<input type="reset" value="Limpar" />
+		<input type="submit" class="btn-large btn-primary" value="Enviar" />
+		<input type="reset" class="btn-large" value="Limpar" />
 	</div>
 	</form>
 {% endblock %}

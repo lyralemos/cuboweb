@@ -4,8 +4,8 @@
 
 {% block  document-heading %}Notícias{% endblock %}
 
-{% block breadcrumbs %}
-	{{ block.super }} &rarr; <a href="{% url noticias_view %}">Noticias</a>
+{% block breadcrumb-item %}
+	<li><a href="{% url noticias_view %}">Noticias</a></li>
 {% endblock %}
 
 {% block content %}
@@ -17,8 +17,8 @@
 			<span class="date">{{ noticia.data_publicacao|date:"d/m/Y - H:i" }}</span>
 			<h3><a href="{{ noticia.get_absolute_url }}">{{ noticia }}</a></h3>
 		</div>
-	{% endfor %}
-	<div id="paginacao">
-		{% paginate %}
-	</div>
+	{% empty %}
+		Não foi encontrada nenhuma notícia.
+	{% endfor %}{{ pages }}
+	{% paginate %}
 {% endblock %}

@@ -50,7 +50,11 @@ def reenviar_boletos(modeladmin, request, queryset):
         nome_congresso = getattr(settings, 'NOME_CONGRESSO')
         default_from = getattr(settings, 'DEFAULT_FROM_EMAIL')
         site_domain = Site.objects.get_current().domain
-        mensagem = render_to_string('congresso/email_inscricao.html', {'instance':inscrito,'domain':site_domain})
+        mensagem = render_to_string('congresso/email_inscricao.html', {
+            'instance':inscrito,
+            'domain':site_domain,
+            'NOME_CONGRESSO':settings.NOME_CONGRESSO
+        })
         send_mail('[%s] Inscrição recebida' % nome_congresso, mensagem,default_from,[inscrito.email])
 reenviar_boletos.short_description = u'Reenviar Boleto'
 

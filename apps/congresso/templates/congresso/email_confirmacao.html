@@ -1,4 +1,4 @@
-{% extends 'base_email.html' %}{% block content %}{% autoescape on %}
+{% extends 'congresso/base_email.html' %}{% block content %}{% autoescape on %}
 Olá {{ instance.nome }},
 
 O Pagamento de sua inscrição no evento {{ evento_nome }} foi confirmado, seu número de inscrição é {{ instance.numero_inscricao }}.

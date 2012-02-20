@@ -10,8 +10,8 @@
 	{{ object }}
 {% endblock %}
 
-{% block breadcrumbs %}
-	{{ block.super }} &rarr; <a href="{{ object.get_absolute_url }}">{{ object.titulo }}</a>
+{% block breadcrumb-item %}
+	{{ block.super }} <span class="divider">/</span><li><a href="{{ object.get_absolute_url }}">{{ object.titulo }}</a></li>
 {% endblock %}
 
 {% block content %}

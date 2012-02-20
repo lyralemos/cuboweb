@@ -4,8 +4,8 @@
 	Programação
 {% endblock %}
 
-{% block breadcrumbs %}
-	{{ block.super }} &rarr; <a href="{% url programacao_view %}">Programação</a>
+{% block breadcrumb-item %}
+	{{ block.super }} <li><a href="{% url programacao_view %}">Programação</a></li>
 {% endblock %}
 
 {% block content %}
@@ -24,13 +24,15 @@
 				{% if not forloop.first %}
 					</table>
 				{% endif %}	
-			<h3 class="dia_programacao">{{ item.dia|date:"d/m/Y - l" }}</h3>
-			<table class="programacao">
-				<tr>
-					<th class="horario">Hor&aacute;rio</th>
-					<th class="titulo">T&iacute;tulo</th>
-					<th class="palestrante">Palestrante</th>
-				</tr>
+			<table class="programacao table table-bordered table-striped">
+				<caption><h3>{{ item.dia|date:"d/m/Y - l" }}</h3></caption>
+				<thead>
+					<tr>
+						<th class="horario">Hor&aacute;rio</th>
+						<th class="titulo">T&iacute;tulo</th>
+						<th class="palestrante">Palestrante</th>
+					</tr>
+				</thead>
 			{% endifchanged %}
 			<tr>
 				<td align="center">{{ item.inicio|time:"H:i" }} - {{ item.termino|time:"H:i" }}</td>

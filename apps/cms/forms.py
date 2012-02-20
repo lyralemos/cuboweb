@@ -32,8 +32,8 @@ class NotifyForm(forms.Form):
         send_mail(subject, message, self.cleaned_data['email'], self.user_list)
 
 class ContatoForm(NotifyForm):
-    nome = forms.CharField()
-    assunto = forms.CharField()
+    nome = forms.CharField(widget=forms.TextInput(attrs={'class':'span5'}))
+    assunto = forms.CharField(widget=forms.TextInput(attrs={'class':'span5'}))
     telefone = BRPhoneNumberField(required=False)
     estado = BRStateChoiceField(initial='AL')
     cidade = forms.CharField()

@@ -1,26 +1,28 @@
 # -*- coding: utf-8 -*-
 """
-This file was generated with the customdashboard management command, it
-contains the two classes for the main dashboard and app index dashboard.
-You can customize these classes as you want.
+This file was generated with the customdashboard management command and
+contains the class for the main dashboard.
 
 To activate your index dashboard add the following to your settings.py::
-    ADMIN_TOOLS_INDEX_DASHBOARD = 'procuradores.dashboard.CustomIndexDashboard'
-
-And to activate the app index dashboard::
-    ADMIN_TOOLS_APP_INDEX_DASHBOARD = 'procuradores.dashboard.CustomAppIndexDashboard'
+    GRAPPELLI_INDEX_DASHBOARD = 'maceiodonto.dashboard.CustomIndexDashboard'
 """
 from datetime import date
 
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse
+from django.db.models import get_model
 
-from admin_tools.dashboard import modules, Dashboard, AppIndexDashboard
+from grappelli.dashboard import modules, Dashboard
+from grappelli.dashboard.modules import DashboardModule
+from grappelli.dashboard.utils import get_admin_site_name
 
-from cuboweb.apps.congresso.models import Preco
+from cuboweb.apps.congresso.models import Preco, Categoria
 
-class DiasModule(modules.DashboardModule):
-    title = 'Dias para o evento'
-    template = 'congresso/dias.html'
+
+
+class DiasModule(DashboardModule):
+    title = 'Término das inscrições'
+    template = 'congresso/dashboard/dias.html'
 
     def init_with_context(self, context):
         try:
@@ -28,8 +30,7 @@ class DiasModule(modules.DashboardModule):
             self.dias = self.ultimo_dia - date.today()
         except Preco.DoesNotExist:
             pass
-        
-    
+
     def is_empty(self):
         if not Preco.objects.count():
             return True
@@ -37,63 +38,91 @@ class DiasModule(modules.DashboardModule):
             return True
         return False
 
+class CategoriasModule(DashboardModule):
+    title = 'Categorias'
+    template = 'congresso/dashboard/categorias.html'
+
+    def init_with_context(self,context):
+        self.categorias = Categoria.objects.all()
+    
+    def is_empty(self):
+        return not bool(len(self.categorias))
+
+class InscricoesModule(DashboardModule):
+    title = 'Inscrições'
+    template = 'congresso/dashboard/inscricoes.html'
+
+    def init_with_context(self,context):
+        Inscricao = get_model('congresso','Inscricao')
+        self.total = Inscricao.objects.count()
+    
+    def is_empty(self):
+        return False
+
 class CustomIndexDashboard(Dashboard):
     """
-    Custom index dashboard for congresso.
+    Custom index dashboard for www.
     """
+    
     def init_with_context(self, context):
-        
-        self.children.append(modules.ModelList('Gerenciador de Conteúdo', ['cuboweb.apps.*','*.Inscricao','website.*']))
+        site_name = get_admin_site_name(context)
         
         # append an app list module for "Administration"
-        self.children.append(modules.AppList(
-            _('Administration'),
+        self.children.append(modules.ModelList(
+            'Administração',
+            column=1,
+            collapsible=True,
+            css_classes=('collapse closed',),
             models=('django.contrib.*',),
         ))
-        
-        self.children.append(DiasModule())
-        
-        self.children.append(modules.LinkList(
-            
-            layout='inline',
-            children=(
-                {
-                    'title': 'Exportar Inscritos',
-                    'url': 'congresso/inscricao/inscritos/',
-                    'external': False,
-                    'description': 'Exportar inscritos em XLS',
-                },
-                ['Gerenciador de arquivos','filebrowser/browse/']
-            )
+
+        self.children.append(modules.ModelList(
+            'Conteúdo',
+            column=1,
+            collapsible=False,
+            models=('cuboweb.apps.congresso.*','cuboweb.apps.paginas.*','cuboweb.apps.noticias.*','apps.*'),
         ))
 
+        self.children.append(DiasModule(
+            column=2,
+            collapsible=False,
+        ))
+
+        self.children.append(InscricoesModule(
+            column=2,
+            collapsible=False,
+        ))
+
+        self.children.append(CategoriasModule(
+            column=2,
+            collapsible=False,
+        ))
+        
+        # append another link list module for "support".
+        self.children.append(modules.LinkList(
+            u'Links Úteis',
+            column=2,
+            collapsible=False,
+            children=[
+                {
+                    'title': 'Gerenciador de Arquivos',
+                    'url': '/admin/filebrowser/browse/',
+                    'external': False,
+                },
+                {
+                    'title': 'Cubo Estúdio Web',
+                    'url': 'http://cuboestudioweb.com/',
+                    'external': True,
+                },
+            ]
+        ))
+        
         # append a recent actions module
-        self.children.append(modules.RecentActions(_('Recent Actions'), 5))
+        self.children.append(modules.RecentActions(
+            _('Recent Actions'),
+            limit=5,
+            collapsible=False,
+            column=3,
+        ))
 
 
-class CustomAppIndexDashboard(AppIndexDashboard):
-    """
-    Custom app index dashboard for procuradores.
-    """
-
-    # we disable title because its redundant with the model list module
-    title = ''
-
-    def __init__(self, *args, **kwargs):
-        AppIndexDashboard.__init__(self, *args, **kwargs)
-
-        # append a model list module and a recent actions module
-        self.children += [
-            modules.ModelList(self.app_title, self.models),
-            modules.RecentActions(
-                _('Recent Actions'),
-                include_list=self.get_app_content_types(),
-                limit=5
-            )
-        ]
-
-    def init_with_context(self, context):
-        """
-        Use this method if you need to access the request context.
-        """
-        return super(CustomAppIndexDashboard, self).init_with_context(context)

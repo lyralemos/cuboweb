@@ -1,0 +1,19 @@
+{% extends "grappelli/dashboard/module.html" %}
+{% block module_content %}
+{% if module.categorias %}
+    <div class="module">
+        {% for categoria in module.categorias %}
+        <div class="row">
+            <a href="congresso/categoria/{{ categoria.id }}/">
+                {{ categoria }} - 
+                {% if categoria.publico %}
+                    Pública
+                {% else %}
+                    Privada
+                {% endif %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

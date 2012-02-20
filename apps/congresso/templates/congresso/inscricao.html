@@ -4,19 +4,21 @@
 	Inscri&ccedil;&atilde;o
 {% endblock %}
 
-{% block breadcrumbs %}
-	{{ block.super }} &rarr; <a href="{% url inscricao_view %}">Inscri&ccedil;&atilde;o</a>
+{% block breadcrumb-item %}
+	{{ block.super }} <li><a href="{% url inscricao_view %}">Inscri&ccedil;&atilde;o</a></li>
 {% endblock %}
 
 {% block content %}
 	{% if precos %}
-		<table class="precos">	
-			<tr>
-				<th></th>
-			{% for data in datas %}
-				<th>Até {{ data|date:"d/m/Y" }}</th>
-			{% endfor %}
-			</tr>
+		<table class="precos table table-bordered table-striped">	
+			<thead>
+				<tr>
+					<th>Categoria</th>
+				{% for data in datas %}
+					<th>Até {{ data|date:"d/m/Y" }}</th>
+				{% endfor %}
+				</tr>
+			</thead>
 			{% for preco in precos %}
 				{% ifchanged preco.categoria %}
 				<tr>
@@ -36,21 +38,10 @@
 	{% endif %}
 	<form method="post" action="{% url inscricao_view %}">{% csrf_token %}
 		{{ form.non_field_errors }}
-		{% for field in form %}
-			{% if not field.is_hidden %}
-			<fieldset {% if field.errors %}class="error"{% endif %}>
-				{{ field.label_tag }}
-				{{ field }}
-				<div class="help">{{ field.help_text }}</div>
-				{{ field.errors }}
-			</fieldset>
-			{% else %}
-				{{ field }}
-			{% endif %}
-		{% endfor %}
+		{% include 'cms/fields.html' %}
 		<div class="action_buttons">
-			<input type="submit" value="Enviar" />
-			<input type="reset" value="Limpar" />
+			<input type="submit" class="btn-large btn-primary" value="Enviar" />
+			<input type="reset" class="btn-large" value="Limpar" />
 		</div>
 	</form>
 {% endblock %}
