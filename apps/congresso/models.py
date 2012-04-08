@@ -160,10 +160,9 @@ class InscricaoBase(models.Model):
         ordering = ('-data_inscricao')
         verbose_name_plural = u'Inscrições'
 
-inscricao_model = models.get_model('congresso','Inscricao')
+inscricao_model = models.get_model('congresso','Inscricao')#,only_installed=False)
 
 if inscricao_model:
-    
     def email_handler(sender,instance,**kwargs):
         try:
             confirmado = inscricao_model.objects.get(pk=instance.pk).confirmado

@@ -36,7 +36,7 @@
 			{{ pagina.texto|safe }}
 		</div>
 	{% endif %}
-	<form method="post" action="{% url inscricao_view %}">{% csrf_token %}
+	<form method="post" action="{% url inscricao_view %}" class="form-inline">{% csrf_token %}
 		{{ form.non_field_errors }}
 		{% include 'cms/fields.html' %}
 		<div class="action_buttons">
