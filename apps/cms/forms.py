@@ -5,7 +5,7 @@ Created on 10/04/2010
 '''
 from django import forms
 from django.contrib.sites.models import Site
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMessage
 from django.contrib.auth.models import User
 from django.contrib.localflavor.br.forms import BRPhoneNumberField,\
     BRStateChoiceField
@@ -29,7 +29,10 @@ class NotifyForm(forms.Form):
         message = ""
         for k in self.base_fields.keyOrder:
             message = message + '%s: %s\n\n' % (self[k].label, self.cleaned_data[k])
-        send_mail(subject, message, self.cleaned_data['email'], self.user_list)
+        reply = self.cleaned_data['email']
+        #send_mail(subject, message, self.cleaned_data['email'], self.user_list)
+        email = EmailMessage(subject, message, to=self.user_list, headers = {'Reply-To': reply})
+        email.send()
 
 class ContatoForm(NotifyForm):
     nome = forms.CharField(widget=forms.TextInput(attrs={'class':'span5'}))
