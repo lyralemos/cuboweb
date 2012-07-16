@@ -114,6 +114,11 @@ class CustomIndexDashboard(Dashboard):
                     'url': 'http://cuboestudioweb.com/',
                     'external': True,
                 },
+                {
+                    'title': 'Exportar Inscritos',
+                    'url': '/admin/congresso/inscricao/inscritos',
+                    'external': False,
+                },
             ]
         ))
         
