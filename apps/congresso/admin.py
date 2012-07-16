@@ -82,7 +82,10 @@ class InscricaoAdmin(admin.ModelAdmin):
             coluna = 0
             for attr,value in inscricao.attrs():
                 if linha == 1:
-                    ws.write(0,coluna,attr.decode('utf-8'))
+                    try:
+                        ws.write(0,coluna,attr.decode('utf-8'))
+                    except UnicodeEncodeError:
+                        ws.write(0,coluna,attr)
                 try:
                     ws.write(linha,coluna,value)
                 except:
